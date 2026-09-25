@@ -1,3 +1,10 @@
+Version 7.0.1
+=============
+
+* 2026-09-25 Content-Type charset is read from any parameter position, case-insensitive and unquoted.
+  "multipart/form-data; charset=ISO-8859-1; boundary=..." (as sent by Apache HttpClient 5) no longer
+  fails every request with IllegalCharsetNameException before routing (georgigm)
+
 Version 7.0.0
 =============
 

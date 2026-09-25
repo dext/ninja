@@ -79,6 +79,7 @@ contributed to Ninja. In some random order:
  * Christian Groth (christiangroth)
  * Piotr Kuciapski (pi0tr)
  * Zalan Meggyesi (zmeggyesi)
+ * Georgi Mangov (georgigm)
  
 <div class="alert alert-info">
 Do you feel you are missing from that list? Please let us know - this did not happen
