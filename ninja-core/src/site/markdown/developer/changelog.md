@@ -1,5 +1,5 @@
-Version 7.0.1
-=============
+Version 7.0.0-dext.1 (internal Dext build of 7.0.0)
+====================================================
 
 * 2026-09-25 Content-Type charset is read from any parameter position, case-insensitive and unquoted.
   "multipart/form-data; charset=ISO-8859-1; boundary=..." (as sent by Apache HttpClient 5) no longer

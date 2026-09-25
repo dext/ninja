@@ -266,9 +266,9 @@
     </reporting>
 
     <scm>
-        <url>https://github.com/ninjaframework/ninja</url>
-        <connection>scm:git://github.com/ninjaframework/ninja.git</connection>
-        <developerConnection>scm:git:git@github.com:ninjaframework/ninja.git</developerConnection>
+        <url>https://github.com/dext/ninja</url>
+        <connection>scm:git://github.com/dext/ninja.git</connection>
+        <developerConnection>scm:git:git@github.com:dext/ninja.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
@@ -287,12 +287,12 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>greenback</id>
+            <url>https://repos.greenback.com/repository/maven-snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>greenback</id>
+            <url>https://repos.greenback.com/repository/maven-releases</url>
         </repository>
     </distributionManagement>
 
