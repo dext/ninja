@@ -880,6 +880,16 @@ public class NinjaServletContextTest {
         verify(httpServletRequest).setCharacterEncoding(NinjaConstant.UTF_8);
     }
 
+    @Test
+    public void testInitEnforcingOfEncodingWhenCharsetIsNotTheLastParameter() throws Exception {
+        when(httpServletRequest.getHeader("Content-Type"))
+                .thenReturn("multipart/form-data; charset=ISO-8859-1; boundary=httpclient_boundary_312a6424");
+
+        context.init(servletContext, httpServletRequest, httpServletResponse);
+
+        verify(httpServletRequest).setCharacterEncoding("ISO-8859-1");
+    }
+
     /**
      * Make sure the correct character encoding is set before the
      * reader is returned.

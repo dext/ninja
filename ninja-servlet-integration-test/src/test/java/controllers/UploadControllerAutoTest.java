@@ -23,6 +23,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import ninja.NinjaTest;
@@ -140,5 +145,46 @@ public class UploadControllerAutoTest extends NinjaTest {
         assertThat(returnedObject.b, is("hello"));
     }
 
+
+    @Test
+    public void testPostFormWithFileWhenCharsetIsNotTheLastParameter() throws IOException {
+
+        String boundary = "httpclient_boundary_312a6424-46f6-461e-9831-a92955b77417";
+        String body = "--" + boundary + "\r\n"
+                + "Content-Disposition: form-data; name=\"name\"\r\n\r\n"
+                + "tester\r\n"
+                + "--" + boundary + "\r\n"
+                + "Content-Disposition: form-data; name=\"email\"\r\n\r\n"
+                + "test@email.com\r\n"
+                + "--" + boundary + "\r\n"
+                + "Content-Disposition: form-data; name=\"file\"; filename=\"test_for_upload.txt\"\r\n"
+                + "Content-Type: text/plain\r\n\r\n"
+                + "test\r\n"
+                + "--" + boundary + "--\r\n";
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(getServerAddress() + "uploadWithForm").openConnection();
+        try {
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "multipart/form-data; charset=ISO-8859-1; boundary=" + boundary);
+            try (OutputStream output = connection.getOutputStream()) {
+                output.write(body.getBytes(StandardCharsets.ISO_8859_1));
+            }
+
+            assertEquals(200, connection.getResponseCode());
+
+            FormWithFile returnedObject;
+            try (InputStream input = connection.getInputStream()) {
+                returnedObject = new ObjectMapper().readValue(input, FormWithFile.class);
+            }
+
+            assertEquals("tester", returnedObject.name);
+            assertEquals("test@email.com", returnedObject.email);
+            assertTrue(returnedObject.fileReceived);
+        } finally {
+            connection.disconnect();
+        }
+
+    }
 
 }

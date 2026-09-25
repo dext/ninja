@@ -16,6 +16,9 @@
 
 package ninja.utils;
 
+import com.google.common.base.Strings;
+import org.apache.commons.fileupload.ParameterParser;
+
 public class HttpHeaderUtils {
     
     
@@ -50,16 +53,19 @@ public class HttpHeaderUtils {
      * See also: http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.7.1
      * 
      * @param rawContentType "application/json; charset=utf-8" or "application/json"
+     * @param defaultEncoding returned when the content type has no or an empty charset parameter
      * @return only the character set like utf-8 OR the defaultEncoding when not set
      */
     public static String getCharsetOfContentType(String rawContentType, String defaultEncoding) {
         
-        if (rawContentType.contains("charset=")) {
-            String charset = rawContentType.split("charset=") [1];
-       
-            return charset;
-        } else {
+        ParameterParser parser = new ParameterParser();
+        parser.setLowerCaseNames(true);
+        String charset = parser.parse(rawContentType, new char[] {';', ','}).get("charset");
+        
+        if (Strings.isNullOrEmpty(charset)) {
             return defaultEncoding;
+        } else {
+            return charset;
         }
         
     }

@@ -16,6 +16,7 @@
 
 package ninja.utils;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -46,6 +47,47 @@ public class HttpHeaderUtilsTest {
         assertEquals("TEST_ENCODING", HttpHeaderUtils.getCharsetOfContentType("application/json; charset=TEST_ENCODING", NinjaConstant.UTF_8));
         assertEquals("TEST_ENCODING", HttpHeaderUtils.getCharsetOfContentType("application/json;charset=TEST_ENCODING", "TEST_ENCODING"));
         assertEquals(NinjaConstant.UTF_8, HttpHeaderUtils.getCharsetOfContentType("application/json", NinjaConstant.UTF_8));
+
+    }
+
+    @Test
+    public void testGetCharacterSetOfContentTypeWhenCharsetIsNotTheLastParameter() {
+
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("multipart/form-data; charset=ISO-8859-1; boundary=httpclient_boundary_312a6424", "TEST_ENCODING")).isEqualTo("ISO-8859-1");
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("text/plain; charset=utf-8; format=flowed", "TEST_ENCODING")).isEqualTo("utf-8");
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("multipart/form-data; boundary=abc; charset=ISO-8859-1", "TEST_ENCODING")).isEqualTo("ISO-8859-1");
+
+    }
+
+    @Test
+    public void testGetCharacterSetOfContentTypeIgnoresCaseOfParameterName() {
+
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("application/json; Charset=utf-8", "TEST_ENCODING")).isEqualTo("utf-8");
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("application/json; CHARSET = utf-8", "TEST_ENCODING")).isEqualTo("utf-8");
+
+    }
+
+    @Test
+    public void testGetCharacterSetOfContentTypeUnquotesValue() {
+
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("application/json; charset=\"utf-8\"", "TEST_ENCODING")).isEqualTo("utf-8");
+
+    }
+
+    @Test
+    public void testGetCharacterSetOfContentTypeWithEmptyValue() {
+
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("application/json; charset=", "TEST_ENCODING")).isEqualTo("TEST_ENCODING");
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("application/json; charset=\"\"", "TEST_ENCODING")).isEqualTo("TEST_ENCODING");
+
+    }
+
+    @Test
+    public void testGetCharacterSetOfContentTypeIgnoresCharsetTextInOtherParameters() {
+
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("multipart/form-data; boundary=\"charset=x;y\"", "TEST_ENCODING")).isEqualTo("TEST_ENCODING");
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("multipart/form-data; boundary=xcharset=y", "TEST_ENCODING")).isEqualTo("TEST_ENCODING");
+        assertThat(HttpHeaderUtils.getCharsetOfContentType("multipart/form-data; boundary=\"a;b\"; charset=ISO-8859-1", "TEST_ENCODING")).isEqualTo("ISO-8859-1");
 
     }
 
