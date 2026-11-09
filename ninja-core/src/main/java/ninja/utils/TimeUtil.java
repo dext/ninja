@@ -16,13 +16,13 @@
 
 package ninja.utils;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jspecify.annotations.NullMarked;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
 
-@ParametersAreNonnullByDefault
+@NullMarked
 public class TimeUtil {
 
     private static final Pattern REGEX = Pattern.compile("^([0-9]+)(d|h|min|mn|s)$");

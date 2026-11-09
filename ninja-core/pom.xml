@@ -104,6 +104,11 @@
             <artifactId>guice-assistedinject</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+        </dependency>
+
         <!-- We use Jackson for rendering jsons: -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
