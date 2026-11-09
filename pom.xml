@@ -594,6 +594,12 @@
                 <version>33.8.0-jre</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.jspecify</groupId>
+                <artifactId>jspecify</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+
             <!-- reflections is used for classpath scanning -->
             <dependency>
                 <groupId>org.reflections</groupId>
