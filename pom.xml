@@ -684,7 +684,7 @@
             <dependency>
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
-                <version>1.4</version>
+                <version>1.6.0</version>
             </dependency>
 
             <!-- Bean validation and reference implementation for JSR 303 -->
